@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Tanda Terima GoCar</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        /* Style untuk Form Penginputan */
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-container h2 {
+            margin-top: 0;
+            font-size: 18px;
+            border-bottom: 2px solid #4caf50;
+            padding-bottom: 8px;
+            color: #4caf50;
+        }
+        .form-group {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #555;
+        }
+        .form-group input, .form-group select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Style Tampilan Bukti GoCar (Sama Persis) */
+        .receipt-wrapper {
+            max-width: 450px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .header {
+            background-color: #2da63d;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        .logo-icon {
+            margin-right: 8px;
+            font-size: 24px;
+        }
+        .meta-info {
+            text-align: right;
+            font-size: 10.5px;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 20px;
+        }
+        .greeting {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .thanks {
+            font-size: 19px;
+            font-weight: bold;
+            color: #000;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+        .total-box {
+            background-color: #f9f9f9;
+            border: 1px solid #e8e8e8;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .total-label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .total-amount {
+            color: #2da63d;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        .payment-table td {
+            padding: 4px 0;
+        }
+        .payment-table td:last-child {
+            text-align: right;
+        }
+        .border-top {
+            border-top: 1px solid #ddd;
+            font-weight: bold;
+            padding-top: 8px !important;
+        }
+        .sub-text {
+            font-size: 11.5px;
+            color: #666;
+        }
+        .trip-details {
+            font-size: 12px;
+            margin-bottom: 25px;
+        }
+        .driver-info-block {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .driver-name {
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+        .driver-vehicle {
+            color: #555;
+            font-size: 11.5px;
+            margin-top: 2px;
+        }
+        .trip-stats {
+            font-size: 11.5px;
+            color: #444;
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+            margin-top: 15px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 3px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .pickup::before {
+            background-color: #2da63d;
+        }
+        .dropoff::before {
+            background-color: #f26522;
+        }
+        .timeline-time {
+            font-size: 11px;
+            color: #666;
+        }
+        .timeline-title {
+            font-weight: bold;
+            font-size: 12.5px;
+            margin: 2px 0;
+        }
+        .timeline-address {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.4;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: space-around;
+            font-size: 11px;
+            color: #3b5998;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-bottom: 15px;
+        }
+        .footer-links span {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .insurance-note {
+            font-size: 10px;
+            color: #777;
+            text-align: center;
+            line-height: 1.4;
+            margin-bottom: 25px;
+        }
+        .social-contacts {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .social-title {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 16px;
+            color: #444;
+        }
+        .social-icons span {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #eee;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .gojek-footer {
+            text-align: center;
+            font-size: 10px;
+            color: #888;
+            line-height: 1.4;
+        }
+        .gojek-logo-bottom {
+            font-weight: bold;
+            color: #000;
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+        }
+        .gojek-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 3px solid #2da63d;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Form Edit Data Tanda Terima</h2>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>Tanggal Atas (Header)</label>
+                <input type="text" id="input_tgl_header" value="Sabtu, 2 Mei 2026">
+            </div>
+            <div class="form-group">
+                <label>ID Pesanan</label>
+                <button type="button" onclick="generateOrderID()" style="margin:0; padding: 8px; font-size:12px;">Acak ID Baru</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Nama Penumpang</label>
+            <input type="text" id="input_nama" value="Victor Ronaldo Pasaribu">
+        </div>
+
+        <div class="form-layer border-top" style="margin-top:10px; padding-top:10px;"></div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Biaya Perjalanan (Rp)</label>
+                <input type="number" id="input_biaya" value="25000" oninput="hitungTotal()">
+            </div>
+            <div class="form-group">
+                <label>Biaya Jasa Aplikasi (Rp)</label>
+                <input type="number" id="input_jasa" value="6500" oninput="hitungTotal()">
+            </div>
+            <div class="form-group">
+                <label>Diskon (Rp)</label>
+                <input type="number" id="input_diskon" value="10000" oninput="hitungTotal()">
+            </div>
+        </div>
+
+        <div class="form-layer border-top" style="margin-top:10px; padding-top:10px;"></div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Nama Driver</label>
+                <input type="text" id="input_driver" value="AZIZ RIFAUL KHUSNA">
+            </div>
+            <div class="form-group">
+                <label>Plat Nomor</label>
+                <input type="text" id="input_plat" value="B1873HOZ">
+            </div>
+            <div class="form-group">
+                <label>Jenis Mobil</label>
+                <input type="text" id="input_mobil" value="Daihatsu Sigra">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Jarak (km)</label>
+                <input type="text" id="input_jarak" value="5.9">
+            </div>
+            <div class="form-group">
+                <label>Waktu Perjalanan (menit)</label>
+                <input type="number" id="input_waktu" value="12">
+            </div>
+        </div>
+
+        <div class="form-layer border-top" style="margin-top:10px; padding-top:10px;"></div>
+
+        <div class="form-group">
+            <label>Waktu Penjemputan</label>
+            <input type="text" id="input_tgl_jemput" value="Dijemput 2 Mei 2026 jam 11:52">
+        </div>
+        <div class="form-group">
+            <label>Tempat Penjemputan</label>
+            <input type="text" id="input_tempat_jemput" value="Stasiun Jurang Mangu">
+        </div>
+        <div class="form-group">
+            <label>Alamat Penjemputan</label>
+            <input type="text" id="input_alamat_jemput" value="Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413">
+        </div>
+
+        <div class="form-layer border-top" style="margin-top:10px; padding-top:10px;"></div>
+
+        <div class="form-group">
+            <label>Waktu Sampai</label>
+            <input type="text" id="input_tgl_sampai" value="Sampai 2 Mei 2026 jam 12:04">
+        </div>
+        <div class="form-group">
+            <label>Tempat Tujuan</label>
+            <input type="text" id="input_tempat_sampai" value="Duatigastudio Graha">
+        </div>
+        <div class="form-group">
+            <label>Alamat Tujuan</label>
+            <input type="text" id="input_alamat_sampai" value="Jl. Boni No.6, RT.001/RW.004, Parigi, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15228, Indonesia">
+        </div>
+
+        <button type="button" onclick="updateReceipt()">Terapkan Perubahan</button>
+    </div>
+
+
+    <div class="receipt-wrapper">
+        <div class="header">
+            <div class="logo-area">
+                <span class="logo-icon">🚗</span>gocar
+            </div>
+            <div class="meta-info">
+                <span id="view_tgl_header">Sabtu, 2 Mei 2026</span><br>
+                ID pesanan: <span id="view_id_pesanan">RB-4750671-92917377</span>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="greeting">Hai <span id="view_nama">Victor Ronaldo Pasaribu</span>,</div>
+            <div class="thanks">Makasih udah pesan GoCar</div>
+
+            <div class="total-box">
+                <div class="total-label">Total dibayar</div>
+                <div class="total-amount" id="view_total_box">Rp21.500</div>
+            </div>
+
+            <div class="section-title">Rincian pembayaran</div>
+            <table class="payment-table">
+                <tr>
+                    <td>Biaya perjalanan</td>
+                    <td id="view_biaya">Rp25.000</td>
+                </tr>
+                <tr>
+                    <td>Biaya jasa aplikasi</td>
+                    <td id="view_jasa">Rp6.500</td>
+                </tr>
+                <tr>
+                    <td>Diskon</td>
+                    <td id="view_diskon">-Rp10.000</td>
+                </tr>
+                <tr>
+                    <td class="border-top">Total pembayaran</td>
+                    <td class="border-top" id="view_total_pembayaran">Rp21.500</td>
+                </tr>
+                <tr>
+                    <td class="sub-text">Dibayar pakai kartu debit/kredit</td>
+                    <td class="sub-text" id="view_metode_bayar">Rp21.500</td>
+                </tr>
+            </table>
+
+            <div class="section-title">Detail perjalanan</div>
+            <div class="trip-details">
+                <div class="driver-info-block">
+                    <div>
+                        <div class="driver-name" id="view_driver">AZIZ RIFAUL KHUSNA</div>
+                        <div class="driver-vehicle"><span id="view_plat">B1873HOZ</span> • <span id="view_mobil">Daihatsu Sigra</span></div>
+                    </div>
+                </div>
+                <div class="trip-stats">
+                    <div>🟢 Jarak <span id="view_jarak">5.9</span> km</div>
+                    <div>🕒 Waktu perjalanan <span id="view_waktu">12</span> menit</div>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item pickup">
+                        <div class="timeline-time" id="view_tgl_jemput">Dijemput 2 Mei 2026 jam 11:52 dari</div>
+                        <div class="timeline-title" id="view_tempat_jemput">Stasiun Jurang Mangu</div>
+                        <div class="timeline-address" id="view_alamat_jemput">Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413</div>
+                    </div>
+                    <div class="timeline-item dropoff">
+                        <div class="timeline-time" id="view_tgl_sampai">Sampai 2 Mei 2026 jam 12:04 di</div>
+                        <div class="timeline-title" id="view_tempat_sampai">Duatigastudio Graha</div>
+                        <div class="timeline-address" id="view_alamat_sampai">Jl. Boni No.6, RT.001/RW.004, Parigi, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15228, Indonesia</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <span>🟢 Bantuan</span>
+                <span>💬 Laporkan masalah</span>
+                <span>📄 Tentang GoCar</span>
+            </div>
+
+            <div class="insurance-note">
+                Perjalanan ini dijamin asuransi. Total yang tercantum adalah harga yang dibayarkan ketika pesanan selesai. Biaya tambahan seperti tip yang diberikan setelah pesanan selesai tidak dicantumkan di bukti pembayaran ini.
+            </div>
+
+            <div class="social-contacts">
+                <div class="social-title">Kontak Gojek lewat</div>
+                <div class="social-icons">
+                    <span>ig</span>
+                    <span>tw</span>
+                    <span>fb</span>
+                    <span>yt</span>
+                    <span>in</span>
+                </div>
+            </div>
+
+            <div class="gojek-footer">
+                <div class="gojek-logo-bottom">
+                    <span class="gojek-circle"></span> gojek
+                </div>
+                Pasaraya Blok M GD B, 7th Floor, Kebayoran Baru, DKI Jakarta Indonesia 12160
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Fungsi memformat angka ke format Rupiah standar tanda terima Gojek (e.g., 21.500)
+        function formatRupiah(angka) {
+            return new Intl.NumberFormat('id-ID').format(angka);
+        }
+
+        // Fungsi auto-calculate total pembayaran
+        function hitungTotal() {
+            const biaya = parseInt(document.getElementById('input_biaya').value) || 0;
+            const jasa = parseInt(document.getElementById('input_jasa').value) || 0;
+            const diskon = parseInt(document.getElementById('input_diskon').value) || 0;
+            
+            const total = (biaya + jasa) - diskon;
+            
+            // Update view real-time untuk bagian pembayaran
+            document.getElementById('view_biaya').innerText = 'Rp' + formatRupiah(biaya);
+            document.getElementById('view_jasa').innerText = 'Rp' + formatRupiah(jasa);
+            document.getElementById('view_diskon').innerText = '-Rp' + formatRupiah(diskon);
+            
+            const totalFormatted = 'Rp' + formatRupiah(total);
+            document.getElementById('view_total_box').innerText = totalFormatted;
+            document.getElementById('view_total_pembayaran').innerText = totalFormatted;
+            document.getElementById('view_metode_bayar').innerText = totalFormatted;
+        }
+
+        // Fungsi generate otomatis Order ID acak sesuai format contoh
+        function generateOrderID() {
+            const part1 = Math.floor(1000000 + Math.random() * 9000000); // 7 digit
+            const part2 = Math.floor(10000000 + Math.random() * 90000000); // 8 digit
+            const newID = 'RB-' + part1 + '-' + part2;
+            document.getElementById('view_id_pesanan').innerText = newID;
+        }
+
+        // Fungsi utama untuk me-render perubahan input ke layout receipt
+        function updateReceipt() {
+            document.getElementById('view_tgl_header').innerText = document.getElementById('input_tgl_header').value;
+            document.getElementById('view_nama').innerText = document.getElementById('input_nama').value;
+            document.getElementById('view_driver').innerText = document.getElementById('input_driver').value;
+            document.getElementById('view_plat').innerText = document.getElementById('input_plat').value;
+            document.getElementById('view_mobil').innerText = document.getElementById('input_mobil').value;
+            document.getElementById('view_jarak').innerText = document.getElementById('input_jarak').value;
+            document.getElementById('view_waktu').innerText = document.getElementById('input_waktu').value;
+            
+            document.getElementById('view_tgl_jemput').innerText = document.getElementById('input_tgl_jemput').value + " dari";
+            document.getElementById('view_tempat_jemput').innerText = document.getElementById('input_tempat_jemput').value;
+            document.getElementById('view_alamat_jemput').innerText = document.getElementById('input_alamat_jemput').value;
+            
+            document.getElementById('view_tgl_sampai').innerText = document.getElementById('input_tgl_sampai').value + " di";
+            document.getElementById('view_tempat_sampai').innerText = document.getElementById('input_tempat_sampai').value;
+            document.getElementById('view_alamat_sampai').innerText = document.getElementById('input_alamat_sampai').value;
+
+            hitungTotal();
+        }
+
+        // Jalankan fungsi pengamat input pertama kali saat web dimuat
+        window.onload = function() {
+            // Pasang event listener biar ganti teks otomatis tanpa klik tombol jika diinginkan
+            const inputs = document.querySelectorAll('.form-container input');
+            inputs.forEach(input => {
+                input.addEventListener('input', updateReceipt);
+            });
+            hitungTotal();
+        };
+    </script>
+</body>
+</html>
