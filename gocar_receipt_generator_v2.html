@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoCar E-Receipt Generator Resmi</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Form Editor Container */
+        .editor-container {
+            width: 100%;
+            max-width: 550px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        .editor-title {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            color: #111;
+            border-bottom: 2px solid #00aa13;
+            padding-bottom: 8px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .form-group-full {
+            grid-column: span 2;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 12px;
+            color: #444;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 13px;
+            background-color: #fafafa;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #00aa13;
+            background-color: #fff;
+        }
+        textarea {
+            resize: vertical;
+            height: 50px;
+        }
+        .btn-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .btn-actions button {
+            flex: 1;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-update { background-color: #00aa13; color: white; }
+        .btn-update:hover { background-color: #008f10; }
+        .btn-print { background-color: #007bc1; color: white; }
+        .btn-print:hover { background-color: #0066a0; }
+
+        /* ====================================================
+           PRESISE EMULATION OF THE GOCAR E-RECEIPT (500px)
+           ==================================================== */
+        #receipt-canvas {
+            width: 500px;
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+            padding-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        /* GoCar Branded Header Banner */
+        .brand-header {
+            background-color: #00aa13; /* Official Gojek/GoCar Emerald Green */
+            color: white;
+            padding: 14px 24px 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .brand-logo-container {
+            display: flex;
+            align-items: center;
+        }
+        /* Custom pure-CSS accurate GoCar Car Icon to avoid external image broke */
+        .car-icon {
+            width: 26px;
+            height: 15px;
+            background-color: white;
+            border-radius: 3px 6px 3px 3px;
+            position: relative;
+            margin-right: 8px;
+            display: inline-block;
+        }
+        .car-icon::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 5px;
+            width: 14px;
+            height: 7px;
+            background-color: white;
+            border-radius: 4px 4px 0 0;
+        }
+        .car-icon::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 3px;
+            width: 4px;
+            height: 4px;
+            background-color: #000;
+            border-radius: 50%;
+            box-shadow: 14px 0 #000;
+        }
+        .brand-text {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1;
+        }
+        .header-meta {
+            text-align: right;
+            font-size: 13px;
+            line-height: 1.4;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+
+        /* Body Layout & Sections */
+        .receipt-content {
+            padding: 30px 24px;
+        }
+        
+        .salutation {
+            font-size: 15px;
+            color: #2b2b2b;
+            margin-bottom: 4px;
+        }
+        .thanks-heading {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin: 0 0 28px 0;
+            color: #000000;
+        }
+
+        /* Total Highlight Box */
+        .total-highlight-row {
+            background-color: #f6f9f7;
+            border: 1px solid #eef2ef;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .total-title-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: #000000;
+        }
+        .total-amount-text {
+            font-size: 18px;
+            font-weight: 800;
+            color: #00aa13;
+        }
+
+        .section-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: #000000;
+            margin: 0 0 16px 0;
+        }
+
+        /* Breakdown Table Styling */
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 35px;
+        }
+        .pricing-table td {
+            padding: 5px 0;
+            font-size: 14px;
+            color: #000000;
+            vertical-align: top;
+        }
+        .pricing-table .val-column {
+            text-align: right;
+            white-space: nowrap;
+        }
+        .pricing-table .dashed-divider td {
+            border-top: 1px dashed #b5b5b5;
+            padding-top: 12px;
+            margin-top: 6px;
+        }
+        .pricing-table .bold-grand-total td {
+            font-weight: 800;
+            font-size: 14.5px;
+        }
+        .pricing-table .subtext-payment td {
+            font-size: 13.5px;
+            color: #404040;
+            padding-top: 2px;
+        }
+
+        /* Two-Column Trip Detail Section Layout */
+        .trip-layout-container {
+            display: flex;
+            width: 100%;
+            margin-bottom: 35px;
+            border-top: 1px solid #efefef;
+            padding-top: 20px;
+        }
+        
+        /* Left Column: Driver Info & Metrics */
+        .driver-metrics-column {
+            width: 44%;
+            padding-right: 15px;
+        }
+        .driver-full-name {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: #000000;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+            letter-spacing: -0.2px;
+        }
+        .driver-vehicle-info {
+            font-size: 12.5px;
+            color: #555555;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .metric-row {
+            font-size: 12.5px;
+            color: #000000;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        .metric-icon-green {
+            color: #00aa13;
+            font-weight: bold;
+            margin-right: 8px;
+            font-size: 14px;
+            width: 16px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        /* Right Column: Precise Vertical Timeline (Pickup -> Dropoff) */
+        .timeline-routing-column {
+            width: 56%;
+            border-left: 1px solid #e5e5e5;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .timeline-node {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+        .timeline-node:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Custom styled timeline marker bullets */
+        .node-bullet {
+            position: absolute;
+            left: -25px; /* Aligns exactly inside or relative to the border left line */
+            top: 5px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid #00aa13;
+            z-index: 2;
+        }
+        .node-bullet.pickup-dot {
+            border-color: #00aa13;
+            background-color: #00aa13;
+        }
+        .node-bullet.dropoff-dot {
+            border-color: #ff6c00;
+            background-color: #ff6c00;
+        }
+
+        .node-time-prefix {
+            font-size: 11.5px;
+            color: #555555;
+            margin-bottom: 3px;
+            line-height: 1.2;
+        }
+        .node-spot-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #000000;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        .node-full-address {
+            font-size: 12px;
+            color: #555555;
+            line-height: 1.4;
+        }
+
+        /* Footer Utilities & Links */
+        .footer-links-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            font-size: 12.5px;
+            font-weight: 600;
+        }
+        .footer-links-row a {
+            color: #2b5797;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .link-icon {
+            margin-right: 4px;
+            font-size: 13px;
+        }
+        
+        .legal-insurance-text {
+            font-size: 11px;
+            color: #666666;
+            text-align: center;
+            line-height: 1.5;
+            margin-bottom: 35px;
+            padding: 0 10px;
+        }
+        
+        /* Social Media Vector Emulations */
+        .social-media-bar {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .social-circle-icon {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background-color: #000000;
+            color: #ffffff;
+            border-radius: 50%;
+            line-height: 28px;
+            font-size: 13px;
+            font-weight: bold;
+            margin: 0 5px;
+            text-align: center;
+        }
+        
+        /* Bottom Branding */
+        .footer-corporate-brand {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 800;
+            color: #000000;
+            letter-spacing: -0.8px;
+            margin-bottom: 6px;
+        }
+        .footer-corporate-brand span {
+            color: #00aa13;
+        }
+        .corporate-hq-address {
+            font-size: 11px;
+            color: #777777;
+            text-align: center;
+            line-height: 1.4;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        /* ====================================================
+           PRINT-SPECIFIC CONFIGURATION
+           ==================================================== */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .editor-container {
+                display: none !important;
+            }
+            #receipt-canvas {
+                box-shadow: none;
+                border: none;
+                width: 100%;
+                max-width: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- INTERACTIVE FORM FOR RECEIPT MANIPULATION -->
+    <div class="editor-container">
+        <h2 class="editor-title">GoCar E-Receipt Live Engine V2</h2>
+        <div class="form-grid">
+            <div>
+                <label>Hari, Tanggal Bulan Tahun Atas</label>
+                <input type="text" id="in-header-date" value="Sabtu, 2 Mei 2026">
+            </div>
+            <div>
+                <label>Nama Customer (Hai...)</label>
+                <input type="text" id="in-cust-name" value="Victor Ronaldo Pasaribu">
+            </div>
+            
+            <div>
+                <label>Total Dibayar (Rp)</label>
+                <input type="number" id="in-total" value="21500" oninput="runRecalculation()">
+            </div>
+            <div>
+                <label>Biaya Jasa Aplikasi (Rp)</label>
+                <input type="number" id="in-jasa" value="6500" oninput="runRecalculation()">
+            </div>
+            
+            <div class="form-group-full">
+                <label>Diskon / Potongan Promo (Rp)</label>
+                <input type="number" id="in-diskon" value="10000" oninput="runRecalculation()">
+            </div>
+
+            <div>
+                <label>Nama Pengemudi / Driver</label>
+                <input type="text" id="in-driver-name" value="AZIZ RIFAUL KHUSNA">
+            </div>
+            <div>
+                <label>Plat Nomor Kendaraan</label>
+                <input type="text" id="in-driver-plat" value="B1873HOZ">
+            </div>
+            
+            <div>
+                <label>Jenis & Seri Mobil</label>
+                <input type="text" id="in-driver-car" value="Daihatsu Sigra">
+            </div>
+            <div>
+                <label>Jarak Tempuh (km)</label>
+                <input type="text" id="in-jarak" value="5.9">
+            </div>
+            
+            <div class="form-group-full">
+                <label>Durasi / Waktu Perjalanan (menit)</label>
+                <input type="number" id="in-waktu" value="12">
+            </div>
+
+            <!-- Pickup Details -->
+            <div class="form-group-full">
+                <label>Waktu Penjemputan (Teks Lengkap)</label>
+                <input type="text" id="in-pickup-time" value="Dijemput 2 Mei 2026 jam 11:52 dari">
+            </div>
+            <div>
+                <label>Nama Titik Jemput</label>
+                <input type="text" id="in-pickup-place" value="Stasiun Jurang Mangu">
+            </div>
+            <div>
+                <label>Alamat Lengkap Titik Jemput</label>
+                <textarea id="in-pickup-addr">Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413</textarea>
+            </div>
+
+            <!-- Destination Details -->
+            <div class="form-group-full">
+                <label>Waktu Sampai Tujuan (Teks Lengkap)</label>
+                <input type="text" id="in-dropoff-time" value="Sampai 2 Mei 2026 jam 12:04 di">
+            </div>
+            <div>
+                <label>Nama Titik Tujuan</label>
+                <input type="text" id="in-dropoff-place" value="Duatigastudio Graha">
+            </div>
+            <div>
+                <label>Alamat Lengkap Titik Tujuan</label>
+                <textarea id="in-dropoff-addr">Jl. Boni No.6, RT.001/RW.004, Parigi, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15228, Indonesia</textarea>
+            </div>
+        </div>
+        
+        <div class="btn-actions">
+            <button class="btn-update" onclick="applyFormToReceipt()">Update Nota</button>
+            <button class="btn-print" onclick="window.print()">Cetak / Simpan PDF</button>
+        </div>
+    </div>
+
+
+    <!-- PRECISION EMULATED CANVAS -->
+    <div id="receipt-canvas">
+        
+        <!-- Top Branded Green Section -->
+        <div class="brand-header">
+            <div class="brand-logo-container">
+                <div class="car-icon"></div>
+                <div class="brand-text">gocar</div>
+            </div>
+            <div class="header-meta">
+                <span id="out-header-date">Sabtu, 2 Mei 2026</span><br>
+                ID pesanan: <span id="out-order-id">RB-4750671-92917377</span>
+            </div>
+        </div>
+
+        <!-- Receipt Core Body Content -->
+        <div class="receipt-content">
+            
+            <div class="salutation">Hai <span id="out-cust-name">Victor Ronaldo Pasaribu</span>,</div>
+            <h1 class="thanks-heading">Makasih udah pesan GoCar</h1>
+
+            <!-- Total Green Display Box -->
+            <div class="total-highlight-row">
+                <div class="total-title-text">Total dibayar</div>
+                <div class="total-amount-text" id="out-total-box">Rp21.500</div>
+            </div>
+
+            <!-- Detailed Breakdown Rows -->
+            <h2 class="section-header">Rincian pembayaran</h2>
+            <table class="pricing-table">
+                <tr>
+                    <td>Biaya perjalanan</td>
+                    <td class="val-column" id="out-biaya-perjalanan">Rp25.000</td>
+                </tr>
+                <tr>
+                    <td>Biaya jasa aplikasi</td>
+                    <td class="val-column" id="out-biaya-jasa">Rp6.500</td>
+                </tr>
+                <tr>
+                    <td>Diskon</td>
+                    <td class="val-column" id="out-biaya-diskon">-Rp10.000</td>
+                </tr>
+                <tr class="dashed-divider bold-grand-total">
+                    <td>Total pembayaran</td>
+                    <td class="val-column" id="out-total-pembayaran">Rp21.500</td>
+                </tr>
+                <tr class="subtext-payment">
+                    <td>Dibayar pakai kartu debit/kredit</td>
+                    <td class="val-column" id="out-payment-method-val">Rp21.500</td>
+                </tr>
+            </table>
+
+            <!-- Detailed Dual-Column Information Layout -->
+            <h2 class="section-header" style="margin-bottom:12px;">Detail perjalanan</h2>
+            
+            <div class="trip-layout-container">
+                
+                <!-- Left Section Column: Driver & Vehicle Info -->
+                <div class="driver-metrics-column">
+                    <div class="driver-full-name" id="out-driver-name">AZIZ RIFAUL KHUSNA</div>
+                    <div class="driver-vehicle-info">
+                        <span id="out-driver-plat">B1873HOZ</span> &bull; <span id="out-driver-car">Daihatsu Sigra</span>
+                    </div>
+                    
+                    <div class="metric-row">
+                        <span class="metric-icon-green">&percnt;</span>Jarak <span id="out-jarak" style="margin-left:4px;">5.9</span> km
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-icon-green">&clock;</span>Waktu perjalanan <span id="out-waktu" style="margin-left:4px;">12</span> menit
+                    </div>
+                </div>
+                
+                <!-- Right Section Column: Precise Vertical Timeline Graph -->
+                <div class="timeline-routing-column">
+                    
+                    <!-- Pickup Dot and Text Stack -->
+                    <div class="timeline-node">
+                        <div class="node-bullet pickup-dot"></div>
+                        <div class="node-time-prefix" id="out-pickup-time">Dijemput 2 Mei 2026 jam 11:52 dari</div>
+                        <div class="node-spot-name" id="out-pickup-place">Stasiun Jurang Mangu</div>
+                        <div class="node-full-address" id="out-pickup-addr">Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413</div>
+                    </div>
+                    
+                    <!-- Dropoff Dot and Text Stack -->
+                    <div class="timeline-node">
+                        <div class="node-bullet dropoff-dot"></div>
+                        <div class="node-time-prefix" id="out-dropoff-time">Sampai 2 Mei 2026 jam 12:04 di</div>
+                        <div class="node-spot-name" id="out-dropoff-place">Duatigastudio Graha</div>
+                        <div class="node-full-address" id="out-dropoff-addr">Jl. Boni No.6, RT.001/RW.004, Parigi, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15228, Indonesia</div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Footer Section & Corporate Info -->
+            <div class="footer-links-row">
+                <a href="#"><span class="link-icon" style="color:#00aa13;">&#128172;</span> Bantuan</a>
+                <a href="#"><span class="link-icon" style="color:#00aa13;">&#128172;</span> Laporkan masalah</a>
+                <a href="#"><span class="link-icon" style="color:#00aa13;">&#128172;</span> Tentang GoCar</a>
+            </div>
+
+            <div class="legal-insurance-text">
+                Perjalanan ini dijamin asuransi. Total yang tercantum adalah harga yang dibayarkan ketika pesanan selesai. Biaya tambahan seperti tip yang diberikan setelah pesanan selesai tidak dicantumkan di bukti pembayaran ini.
+            </div>
+
+            <div class="social-media-bar">
+                <span class="social-circle-icon">O</span>
+                <span class="social-circle-icon">X</span>
+                <span class="social-circle-icon">𝓕</span>
+                <span class="social-circle-icon">𝓨</span>
+                <span class="social-circle-icon">𝓘</span>
+            </div>
+
+            <div class="footer-corporate-brand"><span>go</span>jek</div>
+            <div class="corporate-hq-address">
+                Pasaraya Blok M GD B, 7th Floor, Kebayoran Baru, DKI Jakarta Indonesia 12160
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Automatic high fidelity format generation for Order IDs (Matches structural template: RB-4750671-92917377)
+        function makeSecureOrderId() {
+            const blockA = Math.floor(1000000 + Math.random() * 9000000);
+            const blockB = Math.floor(10000000 + Math.random() * 90000000);
+            return `RB-${blockA}-${blockB}`;
+        }
+
+        // Standardized Indonesian Rupiah formatter
+        function toRupiahString(val) {
+            return 'Rp' + val.toLocaleString('id-ID');
+        }
+
+        // Auto pricing deduction mapping matrix
+        function runRecalculation() {
+            const total = parseInt(document.getElementById('in-total').value) || 0;
+            const jasa = parseInt(document.getElementById('in-jasa').value) || 0;
+            const diskon = parseInt(document.getElementById('in-diskon').value) || 0;
+            
+            // Core Formula: Perjalanan = Total - Jasa + Diskon
+            const perjalanan = total - jasa + diskon;
+            return { total, jasa, diskon, perjalanan };
+        }
+
+        function applyFormToReceipt() {
+            // Apply randomized secure order ID tracking number
+            document.getElementById('out-order-id').innerText = makeSecureOrderId();
+
+            // Text Header Synchronizations
+            document.getElementById('out-header-date').innerText = document.getElementById('in-header-date').value;
+            document.getElementById('out-cust-name').innerText = document.getElementById('in-cust-name').value;
+            
+            // Financial Pricing Matrix Updates
+            const money = runRecalculation();
+            document.getElementById('out-total-box').innerText = toRupiahString(money.total);
+            document.getElementById('out-biaya-perjalanan').innerText = toRupiahString(money.perjalanan);
+            document.getElementById('out-biaya-jasa').innerText = toRupiahString(money.jasa);
+            document.getElementById('out-biaya-diskon').innerText = '-' + toRupiahString(money.diskon);
+            document.getElementById('out-total-pembayaran').innerText = toRupiahString(money.total);
+            document.getElementById('out-payment-method-val').innerText = toRupiahString(money.total);
+
+            // Driver Core Profile Specs
+            document.getElementById('out-driver-name').innerText = document.getElementById('in-driver-name').value;
+            document.getElementById('out-driver-plat').innerText = document.getElementById('in-driver-plat').value;
+            document.getElementById('out-driver-car').innerText = document.getElementById('in-driver-car').value;
+
+            // Operational Trip Metrics
+            document.getElementById('out-jarak').innerText = document.getElementById('in-jarak').value;
+            document.getElementById('out-waktu').innerText = document.getElementById('in-waktu').value;
+
+            // Geographic Routing Logistics Node Strings
+            document.getElementById('out-pickup-time').innerText = document.getElementById('in-pickup-time').value;
+            document.getElementById('out-pickup-place').innerText = document.getElementById('in-pickup-place').value;
+            document.getElementById('out-pickup-addr').innerText = document.getElementById('in-pickup-addr').value;
+
+            document.getElementById('out-dropoff-time').innerText = document.getElementById('in-dropoff-time').value;
+            document.getElementById('out-dropoff-place').innerText = document.getElementById('in-dropoff-place').value;
+            document.getElementById('out-dropoff-addr').innerText = document.getElementById('in-dropoff-addr').value;
+        }
+
+        // Initialize engine core state matrices automatically on runtime deployment
+        window.onload = function() {
+            applyFormToReceipt();
+        };
+    </script>
+</body>
+</html>
