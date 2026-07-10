@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Tanda Terima GoCar Lengkap</title>
+    <title>Generator Tanda Terima GoCar</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -12,9 +12,9 @@
             padding: 20px;
             color: #000000;
         }
-        /* Style untuk Form Kontrol di Bagian Atas */
+        /* Style untuk Form Kontrol di Atas */
         .form-container {
-            max-width: 420px;
+            max-width: 480px;
             margin: 0 auto 30px auto;
             background: #fff;
             padding: 20px;
@@ -63,10 +63,6 @@
             font-size: 11px;
             margin-top: 2px;
         }
-        .divider {
-            border-top: 1px dashed #ccc;
-            margin: 15px 0;
-        }
 
         /* ----------------------------------------------------------------- */
         /* TEMPLATE BUKTI GOCAR - REPLIKA SAMA PERSIS SESUAI GAMBAR ASLI      */
@@ -81,7 +77,7 @@
         
         /* Header Hijau */
         .header {
-            background-color: #00aa13;
+            background-color: #00aa13; /* Warna Hijau Khas Gojek */
             color: white;
             padding: 22px 18px;
             display: flex;
@@ -192,7 +188,7 @@
             margin-bottom: 24px;
         }
         
-        /* Tata Letak Kolom Kiri dan Kanan */
+        /* Layout Kolom Driver (Kiri) & Timeline Lokasi (Kanan) */
         .trip-layout {
             display: flex;
             gap: 16px;
@@ -241,7 +237,7 @@
             flex-shrink: 0;
         }
 
-        /* Timeline Titik Jemput & Tujuan */
+        /* Timeline Penjemputan & Tujuan */
         .timeline-item {
             position: relative;
             padding-left: 18px;
@@ -250,6 +246,7 @@
         .timeline-item:last-child {
             margin-bottom: 0;
         }
+        /* Lingkaran Indikator */
         .timeline-item::before {
             content: '';
             position: absolute;
@@ -283,7 +280,7 @@
             line-height: 1.4;
         }
 
-        /* Tautan Menu Bantuan */
+        /* Footer Bantuan Links */
         .footer-links {
             display: flex;
             justify-content: center;
@@ -298,13 +295,14 @@
             align-items: center;
             gap: 4px;
             cursor: pointer;
+            text-decoration: none;
         }
         .link-icon {
             width: 13px;
             height: 13px;
         }
 
-        /* Catatan Kaki */
+        /* Catatan Asuransi */
         .insurance-note {
             font-size: 10.5px;
             color: #4a4a4a;
@@ -314,7 +312,7 @@
             padding: 0 4px;
         }
 
-        /* Bagian Sosial Media */
+        /* Sosial Media Footer */
         .social-contacts {
             text-align: center;
             margin-bottom: 32px;
@@ -335,12 +333,13 @@
             fill: #000000;
         }
 
-        /* Gojek Identitas Kantor */
+        /* Identitas Gojek Paling Bawah */
         .gojek-footer {
             text-align: center;
             font-size: 10.5px;
             color: #6a6a6a;
             line-height: 1.4;
+            border-top: 1px solid transparent;
         }
         .gojek-logo-bottom {
             display: flex;
@@ -357,44 +356,41 @@
 </head>
 <body>
 
+    <!-- ==================== AREA FORM EDIT VALUE ==================== -->
     <div class="form-container">
-        <h2>Panel Kustomisasi Bukti GoCar</h2>
+        <h2>Form Edit Data Bukti GoCar</h2>
         
         <div class="form-row">
             <div class="form-group">
-                <label>Hari & Tanggal Atas</label>
+                <label>Tanggal & Waktu Header Kanan Atas</label>
                 <input type="text" id="i_tgl_header" value="Sabtu, 2 Mei 2026">
             </div>
             <div class="form-group">
-                <label>ID Pesanan</label>
+                <label>Nomor ID Pesanan</label>
                 <input type="text" id="i_id_pesanan" value="RB-4750671-92917377">
-                <button type="button" class="btn-random" onclick="randomizeID()">Acak ID</button>
+                <button type="button" class="btn-random" onclick="randomizeID()">Format Acak</button>
             </div>
         </div>
 
         <div class="form-group">
-            <label>Nama Pengguna</label>
+            <label>Nama Penumpang (Setelah Kata 'Hai')</label>
             <input type="text" id="i_nama" value="Victor Ronaldo Pasaribu">
         </div>
 
-        <div class="divider"></div>
-
         <div class="form-row">
             <div class="form-group">
-                <label>Biaya Perjalanan</label>
-                <input type="number" id="i_biaya" value="25000">
+                <label>Biaya Perjalanan (Rp)</label>
+                <input type="number" id="i_biaya" value="25000" oninput="kalkulasiHarga()">
             </div>
             <div class="form-group">
-                <label>Jasa Aplikasi</label>
-                <input type="number" id="i_jasa" value="6500">
+                <label>Biaya Jasa Aplikasi (Rp)</label>
+                <input type="number" id="i_jasa" value="6500" oninput="kalkulasiHarga()">
             </div>
             <div class="form-group">
-                <label>Diskon</label>
-                <input type="number" id="i_diskon" value="10000">
+                <label>Diskon (Rp)</label>
+                <input type="number" id="i_diskon" value="10000" oninput="kalkulasiHarga()">
             </div>
         </div>
-
-        <div class="divider"></div>
 
         <div class="form-row">
             <div class="form-group">
@@ -406,7 +402,7 @@
                 <input type="text" id="i_plat" value="B1873HOZ">
             </div>
             <div class="form-group">
-                <label>Mobil</label>
+                <label>Jenis Mobil Driver</label>
                 <input type="text" id="i_mobil" value="Daihatsu Sigra">
             </div>
         </div>
@@ -417,47 +413,46 @@
                 <input type="text" id="i_jarak" value="5.9">
             </div>
             <div class="form-group">
-                <label>Durasi (menit)</label>
+                <label>Waktu Perjalanan (menit)</label>
                 <input type="number" id="i_waktu" value="12">
             </div>
         </div>
 
-        <div class="divider"></div>
-
         <div class="form-group">
-            <label>Waktu Penjemputan</label>
+            <label>Keterangan Dijemput (Tanggal & Jam)</label>
             <input type="text" id="i_tgl_jemput" value="Dijemput 2 Mei 2026 jam 11:52">
         </div>
         <div class="form-group">
-            <label>Tempat Penjemputan</label>
+            <label>Nama Tempat Dijemput</label>
             <input type="text" id="i_tempat_jemput" value="Stasiun Jurang Mangu">
         </div>
         <div class="form-group">
-            <label>Alamat Penjemputan</label>
+            <label>Alamat Lengkap Dijemput</label>
             <input type="text" id="i_alamat_jemput" value="Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413">
         </div>
 
-        <div class="divider"></div>
-
         <div class="form-group">
-            <label>Waktu Sampai</label>
+            <label>Keterangan Sampai (Tanggal & Jam)</label>
             <input type="text" id="i_tgl_sampai" value="Sampai 2 Mei 2026 jam 12:04">
         </div>
         <div class="form-group">
-            <label>Tempat Tujuan</label>
+            <label>Nama Tempat Sampai</label>
             <input type="text" id="i_tempat_sampai" value="Duatigastudio Graha">
         </div>
         <div class="form-group">
-            <label>Alamat Tujuan</label>
+            <label>Alamat Lengkap Sampai</label>
             <input type="text" id="i_alamat_sampai" value="Jl. Boni No.6, RT.001/RW.004, Parigi, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15228, Indonesia">
         </div>
     </div>
 
 
+    <!-- ==================== AREA REPLIKA TANDA TERIMA ==================== -->
     <div class="receipt-wrapper">
         
+        <!-- Header GoCar Hijau -->
         <div class="header">
             <div class="logo-area">
+                <!-- SVG Siluet Mobil + Tulisan gocar Asli -->
                 <svg class="logo-svg" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
                     <path d="M42,28 C42,24 38,20 25,20 C12,20 8,24 8,28 C5,29 3,31 3,34 C3,38 6,39 9,39 L9,42 C9,44 11,46 13,46 L16,46 C18,46 20,44 20,42 L20,39 L30,39 L30,42 C30,44 32,46 34,46 L37,46 C39,46 41,44 41,42 L41,39 C44,39 47,38 47,34 C47,31 45,29 42,28 Z M15,25 C17,25 18,26 18,28 C18,30 17,31 15,31 C13,31 12,30 12,28 C12,26 13,25 15,25 Z M35,25 C37,25 38,26 38,28 C38,30 37,31 35,31 C33,31 32,30 32,28 C32,26 33,25 35,25 Z" fill="white"/>
                     <text x="54" y="40" font-family="-apple-system, sans-serif" font-weight="800" font-size="28" fill="white" letter-spacing="-1.5px">gocar</text>
@@ -473,11 +468,13 @@
             <div class="greeting">Hai <span id="v_nama">Victor Ronaldo Pasaribu</span>,</div>
             <div class="thanks">Makasih udah pesan GoCar</div>
 
+            <!-- Box Total -->
             <div class="total-box">
                 <div class="total-label">Total dibayar</div>
                 <div class="total-amount" id="v_total_box">Rp21.500</div>
             </div>
 
+            <!-- Rincian Pembayaran -->
             <div class="section-title">Rincian pembayaran</div>
             <table class="payment-table">
                 <tr>
@@ -502,10 +499,12 @@
                 </tr>
             </table>
 
+            <!-- Detail Perjalanan -->
             <div class="section-title">Detail perjalanan</div>
             <div class="trip-details-border">
                 <div class="trip-layout">
                     
+                    <!-- Sisi Kiri: Driver & Jarak -->
                     <div class="left-column">
                         <div class="driver-name" id="v_driver">AZIZ RIFAUL KHUSNA</div>
                         <div class="driver-vehicle">
@@ -514,22 +513,27 @@
                         
                         <div class="trip-stats">
                             <div class="stat-item">
+                                <!-- Ikon Jarak Hijau Asli -->
                                 <svg class="stat-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="#00aa13"/></svg>
                                 <span>Jarak <span id="v_jarak">5.9</span> km</span>
                             </div>
                             <div class="stat-item">
+                                <!-- Ikon Waktu Jam Hijau Asli -->
                                 <svg class="stat-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z" fill="#00aa13"/></svg>
                                 <span>Waktu perjalanan <span id="v_waktu">12</span> menit</span>
                             </div>
                         </div>
                     </div>
                     
+                    <!-- Sisi Kanan: Alamat Rute -->
                     <div class="right-column">
+                        <!-- Titik Jemput -->
                         <div class="timeline-item pickup">
                             <div class="timeline-time" id="v_tgl_jemput">Dijemput 2 Mei 2026 jam 11:52 dari</div>
                             <div class="timeline-title" id="v_tempat_jemput">Stasiun Jurang Mangu</div>
                             <div class="timeline-address" id="v_alamat_jemput">Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413</div>
                         </div>
+                        <!-- Titik Sampai -->
                         <div class="timeline-item dropoff">
                             <div class="timeline-time" id="v_tgl_sampai">Sampai 2 Mei 2026 jam 12:04 di</div>
                             <div class="timeline-title" id="v_tempat_sampai">Duatigastudio Graha</div>
@@ -540,6 +544,7 @@
                 </div>
             </div>
 
+            <!-- Tautan Footer -->
             <div class="footer-links">
                 <span>
                     <svg class="link-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm0-4h-2V7h2v7z" fill="#0056b3"/></svg>
@@ -555,23 +560,32 @@
                 </span>
             </div>
 
+            <!-- Catatan Asuransi Kaki Halaman -->
             <div class="insurance-note">
                 Perjalanan ini dijamin asuransi. Total yang tercantum adalah harga yang dibayarkan ketika pesanan selesai. Biaya tambahan seperti tip yang diberikan setelah pesanan selesai tidak dicantumkan di bukti pembayaran ini.
             </div>
 
+            <!-- Sosial Media -->
             <div class="social-contacts">
                 <div class="social-title">Kontak Gojek lewat</div>
                 <div class="social-icons">
-                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                    <!-- Instagram -->
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                    <!-- Twitter -->
                     <svg viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                    <!-- Facebook -->
                     <svg viewBox="0 0 24 24"><path d="M9 8H7v3h2v9h3v-9h2.725l.426-3H12V5.642c0-.854.174-1.307 1.3-1.307H15V1h-2.908C9.577 1 9 2.76 9 5.045V8z"/></svg>
+                    <!-- Youtube -->
                     <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.88.502 5.764a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.88 24 12 24 12s0-3.88-.502-5.764zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    <!-- Linkedin -->
                     <svg viewBox="0 0 24 24"><path d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0zM7.12 20.45H3.56V9h3.56v11.45zM5.34 7.43c-1.14 0-2.06-.92-2.06-2.06 0-1.14.92-2.06 2.06-2.06 1.14 0 2.06.92 2.06 2.06 0 1.14-.92 2.06-2.06 2.06zm15.11 13.02h-3.56v-5.6c0-1.34-.03-3.05-1.86-3.05-1.86 0-2.14 1.45-2.14 2.95v5.7H9.33V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29z"/></svg>
                 </div>
             </div>
 
+            <!-- Identitas Gojek Paling Bawah -->
             <div class="gojek-footer">
                 <div class="gojek-logo-bottom">
+                    <!-- SVG Logo Gojek Asli (Lingkaran Cincin Hijau + Tulisan) -->
                     <svg height="16" viewBox="0 0 80 25" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="10" cy="12" r="6" fill="none" stroke="#00aa13" stroke-width="4"/>
                         <text x="24" y="17" font-family="-apple-system, sans-serif" font-weight="700" font-size="16" fill="#000000">gojek</text>
@@ -583,6 +597,7 @@
         </div>
     </div>
 
+    <!-- ==================== LOGIKA OTOMATISASI DATA ==================== -->
     <script>
         function formatUang(nilai) {
             return new Intl.NumberFormat('id-ID').format(nilai);
