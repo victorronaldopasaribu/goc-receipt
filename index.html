@@ -3,587 +3,638 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Tanda Terima GoCar</title>
+    <title>Struk GoCar Generator</title>
     <style>
-        /* --- STYLE UNTUK FORM INPUT --- */
-        .form-container {
-            max-width: 600px;
+        /* --- PANEL KONTROL INPUT --- */
+        .control-panel {
+            max-width: 500px;
             margin: 20px auto;
             padding: 20px;
-            background: #f4f4f9;
-            border: 1px solid #ddd;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
             border-radius: 8px;
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
-        .form-group {
-            margin-bottom: 12px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .control-panel h2 {
+            margin-top: 0;
+            font-size: 16px;
+            color: #333;
+            border-bottom: 2px solid #00880d;
+            padding-bottom: 8px;
         }
         .form-row {
             display: flex;
             gap: 10px;
-        }
-        .form-row .form-group {
-            flex: 1;
-        }
-        button {
-            background-color: #00880d;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            width: 100%;
-        }
-        button:hover {
-            background-color: #00660a;
-        }
-        .print-btn {
-            background-color: #444;
-            margin-top: 10px;
-        }
-
-        /* --- STYLE UNTUK KUITANSI (REPLIKA GAMBAR) --- */
-        .receipt-wrapper {
-            max-width: 450px;
-            margin: 30px auto;
-            background-color: #ffffff;
-            font-family: Arial, sans-serif;
-            color: #2b2b2b;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            font-size: 13px;
-        }
-        
-        /* Header Green */
-        .receipt-header {
-            background-color: #00880d;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .gocar-logo {
-            display: flex;
-            align-items: center;
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: -1px;
-        }
-        .gocar-logo span {
-            font-size: 20px;
-            margin-right: 5px;
-        }
-        .header-meta {
-            text-align: right;
-            font-size: 11px;
-            line-height: 1.4;
-        }
-
-        /* Content Area */
-        .receipt-body {
-            padding: 25px 20px;
-        }
-        .greeting {
-            color: #666;
-            margin-bottom: 5px;
-        }
-        .main-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 0;
-            margin-bottom: 25px;
-        }
-
-        /* Total Box */
-        .total-box {
-            background-color: #f7f9f8;
-            border: 1px solid #e2e8e5;
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-        .total-box .amount {
-            color: #00880d;
-            font-size: 16px;
-        }
-
-        /* Section Title */
-        .section-title {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            margin-top: 25px;
-        }
-
-        /* Tables/Details */
-        .payment-table {
-            width: 100%;
-            border-collapse: collapse;
             margin-bottom: 10px;
         }
-        .payment-table td {
-            padding: 4px 0;
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
-        .payment-table tr.border-top td {
-            border-top: 1px solid #ccc;
-            padding-top: 8px;
+        .form-group label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 4px;
+        }
+        .form-group input, .form-group textarea {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .section-divider {
+            font-size: 12px;
+            font-weight: bold;
+            color: #00880d;
+            margin: 15px 0 5px 0;
+            background: #f0f0f0;
+            padding: 4px;
+        }
+        .btn-update {
+            background: #00880d;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-print {
+            background: #444;
+            color: white;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
             margin-top: 5px;
         }
-        .text-right {
-            text-align: right;
+
+        /* --- REPLIKA STRUK GOCAR (SAMA PERSIS) --- */
+        body {
+            background: #f0f0f0;
+            margin: 0;
+            padding: 0;
         }
-        .font-bold {
-            font-weight: bold;
-        }
-        .text-muted {
-            color: #666;
+        .email-container {
+            max-width: 450px;
+            margin: 20px auto;
+            background: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #000000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* Journey Details */
-        .journey-container {
-            border: 1px solid #ececec;
-            padding: 15px;
-            border-radius: 4px;
-        }
-        .driver-info {
+        /* Hijau Atas */
+        .gocar-header {
+            background-color: #00880d;
+            color: #ffffff;
+            padding: 14px 20px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
+            align-items: center;
+        }
+        .brand-wrapper {
+            display: flex;
+            align-items: center;
+            font-weight: 800;
+            font-size: 25px;
+            letter-spacing: -0.5px;
+        }
+        .brand-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 6px;
+            fill: white;
+        }
+        .header-info {
+            text-align: right;
+            font-size: 10px;
+            line-height: 1.3;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Konten Utama */
+        .email-body {
+            padding: 24px 20px;
+        }
+        .salutation {
+            font-size: 13px;
+            color: #000000;
+            margin-bottom: 12px;
+        }
+        .headline {
+            font-size: 17px;
+            font-weight: bold;
+            margin: 0 0 24px 0;
+            color: #000000;
+        }
+
+        /* Kotak Total */
+        .total-container {
+            background-color: #f9fbf9;
+            border: 1px solid #e3ede4;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .total-title {
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .total-amount {
+            font-size: 15px;
+            font-weight: bold;
+            color: #00880d;
+        }
+
+        /* Judul Blok */
+        .block-title {
+            font-size: 13px;
+            font-weight: bold;
+            margin: 24px 0 12px 0;
+        }
+
+        /* Tabel Rincian */
+        .table-rincian {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        .table-rincian td {
+            padding: 4px 0;
+            color: #000000;
+        }
+        .table-rincian .label-muted {
+            color: #555555;
+        }
+        .table-rincian .row-total td {
+            border-top: 1px solid #e0e0e0;
+            font-weight: bold;
+            font-size: 13px;
+            padding-top: 10px;
+            margin-top: 5px;
+        }
+        .table-rincian .row-payment-method td {
+            color: #555555;
+            font-size: 11px;
+            padding-top: 4px;
+        }
+        .align-right {
+            text-align: right;
+        }
+
+        /* Detail Perjalanan */
+        .card-perjalanan {
+            border: 1px solid #f0f0f0;
+            border-radius: 4px;
+            padding: 14px;
+        }
+        .driver-profile {
+            margin-bottom: 12px;
         }
         .driver-name {
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
         }
-        .driver-vehicle {
-            color: #555;
-            font-size: 12px;
+        .driver-car {
+            font-size: 11px;
+            color: #555555;
             margin-top: 2px;
         }
-        .trip-metrics {
-            font-size: 12px;
-            color: #444;
-            margin-top: 8px;
-            line-height: 1.6;
+        .trip-meta-item {
+            display: flex;
+            align-items: center;
+            font-size: 11.5px;
+            color: #000000;
+            margin-bottom: 4px;
+        }
+        .meta-icon {
+            width: 14px;
+            height: 14px;
+            margin-right: 6px;
         }
 
-        /* Timeline Route */
-        .timeline {
+        /* Timeline / Alamat */
+        .route-timeline {
             position: relative;
-            padding-left: 25px;
-            margin-top: 15px;
-        }
-        .timeline-item {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
-        .icon-dot {
-            position: absolute;
-            left: -22px;
-            top: 3px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        .dot-pickup {
-            background-color: #00880d;
-            border: 2px solid #fff;
-            box-shadow: 0 0 0 1px #00880d;
-        }
-        .dot-dropoff {
-            background-color: #ff6c00;
-            border: 2px solid #fff;
-            box-shadow: 0 0 0 1px #ff6c00;
+            margin-top: 16px;
+            padding-left: 20px;
         }
         .timeline-line {
             position: absolute;
-            left: 9px;
-            top: 8px;
-            bottom: 8px;
+            left: 5px;
+            top: 10px;
+            bottom: 10px;
             width: 2px;
-            border-left: 2px dashed #ccc;
+            border-left: 2px dashed #cccccc;
         }
-        .time-header {
-            font-size: 12px;
-            color: #555;
+        .route-node {
+            position: relative;
+            margin-bottom: 20px;
         }
-        .time-header strong {
-            color: #2b2b2b;
+        .route-node:last-child {
+            margin-bottom: 0;
         }
-        .place-name {
-            font-weight: bold;
-            font-size: 13px;
-            margin: 4px 0;
+        .node-dot {
+            position: absolute;
+            left: -20px;
+            top: 3px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
         }
-        .place-address {
-            color: #666;
+        .dot-green { background: #00880d; }
+        .dot-orange { background: #ff6c00; }
+        
+        .node-header {
             font-size: 11px;
+            color: #555555;
+        }
+        .node-header strong {
+            color: #000000;
+        }
+        .node-title {
+            font-weight: bold;
+            font-size: 12.5px;
+            margin: 4px 0;
+            color: #000000;
+        }
+        .node-address {
+            font-size: 11px;
+            color: #555555;
             line-height: 1.4;
         }
 
-        /* Footer Links & Info */
-        .receipt-footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 11px;
-            color: #666;
-            line-height: 1.5;
-            background: #fff;
+        /* Bagian Bawah / Footer */
+        .footer-separator {
+            border: 0;
+            border-top: 1px dashed #cccccc;
+            margin: 0;
         }
-        .footer-links {
+        .email-footer {
+            padding: 24px 20px;
+            background: #ffffff;
+            text-align: center;
+        }
+        .footer-nav {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
+        }
+        .footer-nav a {
+            font-size: 11px;
             font-weight: bold;
             color: #333366;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
-        .footer-links span {
-            cursor: pointer;
+        .legal-text {
+            font-size: 10.5px;
+            color: #555555;
+            line-height: 1.5;
+            margin: 0 0 24px 0;
+            text-align: center;
         }
-        .social-icons {
-            margin: 20px 0;
+        .social-title {
+            font-size: 11.5px;
+            font-weight: bold;
+            color: #444444;
+            margin-bottom: 12px;
+        }
+        .social-row {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
+            margin-bottom: 24px;
         }
-        .social-circle {
+        .social-icon-circle {
             width: 24px;
             height: 24px;
-            background-color: #2b2b2b;
-            color: white;
+            background: #000000;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
         }
-        .gojek-logo-foot {
-            font-size: 18px;
-            font-weight: bold;
-            color: #000;
-            margin-bottom: 5px;
+        .social-icon-circle svg {
+            width: 12px;
+            height: 12px;
+            fill: white;
         }
-        .gojek-logo-foot span {
-            color: #00880d;
+        .brand-footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        .brand-footer svg {
+            width: 16px;
+            height: 16px;
+            fill: #00880d;
+            margin-right: 4px;
+        }
+        .office-address {
+            font-size: 9.5px;
+            color: #888888;
+            line-height: 1.4;
+            max-width: 280px;
+            margin: 0 auto;
         }
 
-        /* Sembunyikan form saat dicetak */
+        /* Sembunyikan form kontrol saat cetak ke PDF */
         @media print {
-            .form-container {
-                display: none;
-            }
-            body {
-                background: white;
-            }
-            .receipt-wrapper {
-                box-shadow: none;
-                margin: 0 auto;
-            }
+            .control-panel { display: none; }
+            body { background: #fff; }
+            .email-container { box-shadow: none; margin: 0 auto; }
         }
     </style>
 </head>
 <body>
 
-    <div class="form-container">
-        <h2 style="margin-top:0;">Panel Kontrol Data Kuitansi</h2>
-        
+    <div class="control-panel">
+        <h2>Panel Data Struk GoCar</h2>
         <div class="form-row">
             <div class="form-group">
-                <label>Tanggal Atas (Contoh: Sabtu, 2 Mei 2026)</label>
-                <input type="text" id="in_tgl_atas" value="Sabtu, 2 Mei 2026">
+                <label>Tanggal Atas</label>
+                <input type="text" id="inp_tgl_atas" value="Sabtu, 2 Mei 2026">
             </div>
             <div class="form-group">
                 <label>Nama Penumpang</label>
-                <input type="text" id="in_nama_user" value="Victor Ronaldo Pasaribu">
+                <input type="text" id="inp_nama_user" value="Victor Ronaldo Pasaribu">
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group">
                 <label>Biaya Perjalanan (Rp)</label>
-                <input type="number" id="in_biaya_perjalanan" value="25000">
+                <input type="number" id="inp_biaya_trip" value="25000">
             </div>
             <div class="form-group">
-                <label>Biaya Jasa Aplikasi (Rp)</label>
-                <input type="number" id="in_biaya_aplikasi" value="6500">
+                <label>Jasa Aplikasi (Rp)</label>
+                <input type="number" id="inp_biaya_app" value="6500">
             </div>
             <div class="form-group">
                 <label>Diskon (Rp)</label>
-                <input type="number" id="in_diskon" value="10000">
+                <input type="number" id="inp_diskon" value="10000">
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group">
                 <label>Nama Driver</label>
-                <input type="text" id="in_driver_nama" value="AZIZ RIFAUL KHUSNA">
+                <input type="text" id="inp_driver_nama" value="AZIZ RIFAUL KHUSNA">
             </div>
             <div class="form-group">
                 <label>Plat Nomor</label>
-                <input type="text" id="in_driver_plat" value="B1873HOZ">
+                <input type="text" id="inp_driver_plat" value="B1873HOZ">
             </div>
             <div class="form-group">
-                <label>Jenis Mobil</label>
-                <input type="text" id="in_driver_mobil" value="Daihatsu Sigra">
+                <label>Unit Mobil</label>
+                <input type="text" id="inp_driver_mobil" value="Daihatsu Sigra">
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group">
                 <label>Jarak (km)</label>
-                <input type="text" id="in_jarak" value="5.9">
+                <input type="text" id="inp_jarak" value="5.9">
             </div>
             <div class="form-group">
-                <label>Waktu Perjalanan (menit)</label>
-                <input type="number" id="in_waktu" value="12">
+                <label>Waktu (menit)</label>
+                <input type="number" id="inp_waktu" value="12">
             </div>
         </div>
 
-        <div style="background:#e9ecef; padding: 10px; border-radius: 4px; margin-bottom: 12px;">
-            <strong>Rincian Penjemputan</strong>
-            <div class="form-group" style="margin-top:5px;">
-                <label>Waktu (Contoh: 2 Mei 2026 jam 11:52)</label>
-                <input type="text" id="in_jemput_waktu" value="2 Mei 2026 jam 11:52">
-            </div>
-            <div class="form-group">
-                <label>Nama Tempat</label>
-                <input type="text" id="in_jemput_tempat" value="Stasiun Jurang Mangu">
-            </div>
-            <div class="form-group">
-                <label>Alamat Lengkap</label>
-                <textarea id="in_jemput_alamat" rows="2">Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413</textarea>
-            </div>
+        <div class="section-divider">DETAIL PENJEMPUTAN</div>
+        <div class="form-group" style="margin-bottom:8px;">
+            <label>Waktu Penjemputan</label>
+            <input type="text" id="inp_jemput_waktu" value="2 Mei 2026 jam 11:52">
+        </div>
+        <div class="form-group" style="margin-bottom:8px;">
+            <label>Nama Tempat Penjemputan</label>
+            <input type="text" id="inp_jemput_tempat" value="Stasiun Jurang Mangu">
+        </div>
+        <div class="form-group">
+            <label>Alamat Lengkap</label>
+            <textarea id="inp_jemput_alamat" rows="2">Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413</textarea>
         </div>
 
-        <div style="background:#e9ecef; padding: 10px; border-radius: 4px; margin-bottom: 12px;">
-            <strong>Rincian Tujuan (Sampai)</strong>
-            <div class="form-group" style="margin-top:5px;">
-                <label>Waktu (Contoh: 2 Mei 2026 jam 12:04)</label>
-                <input type="text" id="in_sampai_waktu" value="2 Mei 2026 jam 12:04">
-            </div>
-            <div class="form-group">
-                <label>Nama Tempat</label>
-                <input type="text" id="in_sampai_tempat" value="Duatigastudio Graha">
-            </div>
-            <div class="form-group">
-                <label>Alamat Lengkap</label>
-                <textarea id="in_sampai_alamat" rows="2">Jl. Boni No.6, RT.001/RW.004, Parigi, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15228, Indonesia</textarea>
-            </div>
+        <div class="section-divider">DETAIL PENGANTARAN (SAMPAI)</div>
+        <div class="form-group" style="margin-bottom:8px;">
+            <label>Waktu Sampai</label>
+            <input type="text" id="inp_sampai_waktu" value="2 Mei 2026 jam 12:04">
+        </div>
+        <div class="form-group" style="margin-bottom:8px;">
+            <label>Nama Tempat Tujuan</label>
+            <input type="text" id="inp_sampai_tempat" value="Duatigastudio Graha">
+        </div>
+        <div class="form-group">
+            <label>Alamat Lengkap</label>
+            <textarea id="inp_sampai_alamat" rows="2">Jl. Boni No.6, RT.001/RW.004, Parigi, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15228, Indonesia</textarea>
         </div>
 
-        <button onclick="updateReceipt()">Perbarui Kuitansi</button>
-        <button class="print-btn" onclick="window.print()">Cetak / Simpan PDF</button>
+        <button class="btn-update" onclick="prosesPerubahan()">Perbarui Tampilan</button>
+        <button class="btn-print" onclick="window.print()">Cetak / Simpan PDF</button>
     </div>
 
-    <div class="receipt-wrapper">
+
+    <div class="email-container">
         
-        <div class="receipt-header">
-            <div class="gocar-logo">
-                <span style="font-family: sans-serif; font-weight: bold;">🚗</span>gocar
+        <div class="gocar-header">
+            <div class="brand-wrapper">
+                <svg class="brand-icon" viewBox="0 0 24 24"><path d="M18.92 11c-.13-.39-.46-.69-.88-.79L16 9.5V5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v4.5l-2.04.71c-.42.1-.75.4-.88.79L4 16v5c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-5l-1.08-5zM6.5 18c-.83 0-1.5-.67-1.5-1.5S5.67 15 6.5 15s1.5.67 1.5 1.5S7.33 18 6.5 18zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM9 9.5V5h6v4.5l-3 1-3-1z"/></svg>
+                gocar
             </div>
-            <div class="header-meta">
+            <div class="header-info">
                 <span id="lbl_tgl_atas">Sabtu, 2 Mei 2026</span><br>
-                ID pesanan: <span id="lbl_id_pesanan">RB-4750671-92917377</span>
+                ID pesanan: <span id="lbl_id_pesanan">RB-0000000-00000000</span>
             </div>
         </div>
 
-        <div class="receipt-body">
-            <div class="greeting">Hai <span id="lbl_nama_user">Victor Ronaldo Pasaribu</span>,</div>
-            <h1 class="main-title">Makasih udah pesan GoCar</h1>
+        <div class="email-body">
+            <div class="salutation">Hai <span id="lbl_nama_user">Victor Ronaldo Pasaribu</span>,</div>
+            <h1 class="headline">Makasih udah pesan GoCar</h1>
 
-            <div class="total-box">
-                <div>Total dibayar</div>
-                <div class="amount" id="lbl_total_atas">Rp21.500</div>
+            <div class="total-container">
+                <div class="total-title">Total dibayar</div>
+                <div class="total-amount" id="lbl_total_box">Rp21.500</div>
             </div>
 
-            <div class="section-title">Rincian pembayaran</div>
-            <table class="payment-table">
+            <div class="block-title">Rincian pembayaran</div>
+            <table class="table-rincian">
                 <tr>
-                    <td class="text-muted">Biaya perjalanan</td>
-                    <td class="text-right" id="lbl_biaya_perjalanan">Rp25.000</td>
+                    <td class="label-muted">Biaya perjalanan</td>
+                    <td class="align-right" id="lbl_biaya_trip">Rp25.000</td>
                 </tr>
                 <tr>
-                    <td class="text-muted">Biaya jasa aplikasi</td>
-                    <td class="text-right" id="lbl_biaya_aplikasi">Rp6.500</td>
+                    <td class="label-muted">Biaya jasa aplikasi</td>
+                    <td class="align-right" id="lbl_biaya_app">Rp6.500</td>
                 </tr>
                 <tr>
-                    <td class="text-muted">Diskon</td>
-                    <td class="text-right" style="color: #2b2b2b;" id="lbl_diskon">-Rp10.000</td>
+                    <td class="label-muted">Diskon</td>
+                    <td class="align-right" id="lbl_diskon">-Rp10.000</td>
                 </tr>
-                <tr class="border-top font-bold">
+                <tr class="row-total">
                     <td>Total pembayaran</td>
-                    <td class="text-right" id="lbl_total_bawah">Rp21.500</td>
+                    <td class="align-right" id="lbl_total_bawah">Rp21.500</td>
                 </tr>
-                <tr class="text-muted" style="font-size: 12px;">
+                <tr class="row-payment-method">
                     <td>Dibayar pakai kartu debit/kredit</td>
-                    <td class="text-right" id="lbl_metode_bayar">Rp21.500</td>
+                    <td class="align-right" id="lbl_metode_bayar">Rp21.500</td>
                 </tr>
             </table>
 
-            <div class="section-title">Detail perjalanan</div>
-            
-            <div class="journey-container">
-                <div class="driver-info">
-                    <div>
-                        <div class="driver-name" id="lbl_driver_nama">AZIZ RIFAUL KHUSNA</div>
-                        <div class="driver-vehicle">
-                            <span id="lbl_driver_plat">B1873HOZ</span> &bull; <span id="lbl_driver_mobil">Daihatsu Sigra</span>
-                        </div>
+            <div class="block-title">Detail perjalanan</div>
+            <div class="card-perjalanan">
+                
+                <div class="driver-profile">
+                    <div class="driver-name" id="lbl_driver_nama">AZIZ RIFAUL KHUSNA</div>
+                    <div class="driver-car">
+                        <span id="lbl_driver_plat">B1873HOZ</span> &bull; <span id="lbl_driver_mobil">Daihatsu Sigra</span>
                     </div>
                 </div>
 
-                <div class="trip-metrics">
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <span style="color:green;">🏷️</span> Jarak <span id="lbl_jarak">5.9</span> km
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 5px; margin-top: 2px;">
-                        <span style="color:green;">🕒</span> Waktu perjalanan <span id="lbl_waktu">12</span> menit
-                    </div>
+                <div class="trip-meta-item">
+                    <svg class="meta-icon" fill="#00880d" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Jarak <span id="lbl_jarak" style="margin: 0 4px;">5.9</span> km
+                </div>
+                <div class="trip-meta-item">
+                    <svg class="meta-icon" fill="#00880d" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    Waktu perjalanan <span id="lbl_waktu" style="margin: 0 4px;">12</span> menit
                 </div>
 
-                <div class="timeline">
+                <div class="route-timeline">
                     <div class="timeline-line"></div>
                     
-                    <div class="timeline-item">
-                        <div class="icon-dot dot-pickup"></div>
-                        <div class="time-header">Dijemput <span id="lbl_jemput_waktu">2 Mei 2026 jam 11:52</span> dari</div>
-                        <div class="place-name" id="lbl_jemput_tempat">Stasiun Jurang Mangu</div>
-                        <div class="place-address" id="lbl_jemput_alamat">Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413</div>
+                    <div class="route-node">
+                        <div class="node-dot dot-green"></div>
+                        <div class="node-header">Dijemput <span id="lbl_jemput_waktu">2 Mei 2026 jam 11:52</span> dari</div>
+                        <div class="node-title" id="lbl_jemput_tempat">Stasiun Jurang Mangu</div>
+                        <div class="node-address" id="inp_lbl_jemput_alamat">Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413</div>
                     </div>
 
-                    <div class="timeline-item">
-                        <div class="icon-dot dot-dropoff"></div>
-                        <div class="time-header">Sampai <span id="lbl_sampai_waktu">2 Mei 2026 jam 12:04</span> di</div>
-                        <div class="place-name" id="lbl_sampai_tempat">Duatigastudio Graha</div>
-                        <div class="place-address" id="lbl_sampai_alamat">Jl. Boni No.6, RT.001/RW.004, Parigi, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15228, Indonesia</div>
+                    <div class="route-node">
+                        <div class="node-dot dot-orange"></div>
+                        <div class="node-header">Sampai <span id="lbl_sampai_waktu">2 Mei 2026 jam 12:04</span> di</div>
+                        <div class="node-title" id="lbl_sampai_tempat">Duatigastudio Graha</div>
+                        <div class="node-address" id="inp_lbl_sampai_alamat">Jl. Boni No.6, RT.001/RW.004, Parigi, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15228, Indonesia</div>
                     </div>
+
                 </div>
+
             </div>
         </div>
 
-        <hr style="border: 0; border-top: 1px dashed #ccc; margin: 0;">
-        <div class="receipt-footer">
-            <div class="footer-links">
-                <span>🟢 Bantuan</span>
-                <span>💬 Laporkan masalah</span>
-                <span>📱 Tentang GoCar</span>
+        <hr class="footer-separator">
+
+        <div class="email-footer">
+            <div class="footer-nav">
+                <a href="#">💚 Bantuan</a>
+                <a href="#">💬 Laporkan masalah</a>
+                <a href="#">📄 Tentang GoCar</a>
             </div>
-            <p style="margin-bottom: 20px; padding: 0 10px;">
+            
+            <p class="legal-text">
                 Perjalanan ini dijamin asuransi. Total yang tercantum adalah harga yang dibayarkan ketika pesanan selesai. Biaya tambahan seperti tip yang diberikan setelah pesanan selesai tidak dicantumkan di bukti pembayaran ini.
             </p>
+
+            <div class="social-title">Kontak Gojek lewat</div>
             
-            <div style="font-size: 12px; font-weight: bold; color: #444;">Kontak Gojek lewat</div>
-            <div class="social-icons">
-                <div class="social-circle">📸</div>
-                <div class="social-circle">🐦</div>
-                <div class="social-circle">f</div>
-                <div class="social-circle">▶</div>
-                <div class="social-circle">in</div>
+            <div class="social-row">
+                <div class="social-icon-circle"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></div>
+                <div class="social-icon-circle"><svg viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></div>
+                <div class="social-icon-circle"><svg viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></div>
+                <div class="social-icon-circle"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></div>
+                <div class="social-icon-circle"><svg viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg></div>
             </div>
 
-            <div class="gojek-logo-foot">🟢 gojek</div>
-            <div style="color: #888; font-size: 10px;">
+            <div class="brand-footer">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>gojek
+            </div>
+            <div class="office-address">
                 Pasaraya Blok M GD B, 7th Floor, Kebayoran Baru, DKI Jakarta Indonesia 12160
             </div>
         </div>
     </div>
 
     <script>
-        // Fungsi pembantu format rupiah
-        function formatRupiah(angka) {
-            return "Rp" + parseFloat(angka).toLocaleString('id-ID');
+        function formatRupiah(num) {
+            return "Rp" + parseFloat(num).toLocaleString('id-ID');
         }
 
-        // Fungsi generate ID Pesanan Otomatis sesuai format RB-XXXXXXX-XXXXXXXX
-        function generateOrderID() {
-            var rand1 = Math.floor(1000000 + Math.random() * 9000000); // 7 digit
-            var rand2 = Math.floor(10000000 + Math.random() * 90000000); // 8 digit
-            document.getElementById('lbl_id_pesanan').innerText = "RB-" + rand1 + "-" + rand2;
+        function acakIDPesanan() {
+            var p1 = Math.floor(1000000 + Math.random() * 9000000);
+            var p2 = Math.floor(10000000 + Math.random() * 90000000);
+            document.getElementById('lbl_id_pesanan').innerText = "RB-" + p1 + "-" + p2;
         }
 
-        // Fungsi utama untuk update live view kuitansi
-        function updateReceipt() {
-            // Ambil values dari input form
-            var tglAtas = document.getElementById('in_tgl_atas').value;
-            var namaUser = document.getElementById('in_nama_user').value;
+        function prosesPerubahan() {
+            var tglAtas = document.getElementById('inp_tgl_atas').value;
+            var namaUser = document.getElementById('inp_nama_user').value;
             
-            var biayaPerjalanan = parseFloat(document.getElementById('in_biaya_perjalanan').value) || 0;
-            var biayaAplikasi = parseFloat(document.getElementById('in_biaya_aplikasi').value) || 0;
-            var diskon = parseFloat(document.getElementById('in_diskon').value) || 0;
+            var bTrip = parseFloat(document.getElementById('inp_biaya_trip').value) || 0;
+            var bApp = parseFloat(document.getElementById('inp_biaya_app').value) || 0;
+            var diskon = parseFloat(document.getElementById('inp_diskon').value) || 0;
 
-            var driverNama = document.getElementById('in_driver_nama').value;
-            var driverPlat = document.getElementById('in_driver_plat').value;
-            var driverMobil = document.getElementById('in_driver_mobil').value;
+            var dNama = document.getElementById('inp_driver_nama').value;
+            var dPlat = document.getElementById('inp_driver_plat').value;
+            var dMobil = document.getElementById('inp_driver_mobil').value;
             
-            var jarak = document.getElementById('in_jarak').value;
-            var waktu = document.getElementById('in_waktu').value;
+            var jarak = document.getElementById('inp_jarak').value;
+            var waktu = document.getElementById('inp_waktu').value;
 
-            var jemputWaktu = document.getElementById('in_jemput_waktu').value;
-            var jemputTempat = document.getElementById('in_jemput_tempat').value;
-            var jemputAlamat = document.getElementById('in_jemput_alamat').value;
+            var jWaktu = document.getElementById('inp_jemput_waktu').value;
+            var jTempat = document.getElementById('inp_jemput_tempat').value;
+            var jAlamat = document.getElementById('inp_jemput_alamat').value;
 
-            var sampaiWaktu = document.getElementById('in_sampai_waktu').value;
-            var sampaiTempat = document.getElementById('in_sampai_tempat').value;
-            var sampaiAlamat = document.getElementById('in_sampai_alamat').value;
+            var sWaktu = document.getElementById('inp_sampai_waktu').value;
+            var sTempat = document.getElementById('inp_sampai_tempat').value;
+            var sAlamat = document.getElementById('inp_sampai_alamat').value;
 
-            // Hitung Kalkulasi Total Otomatis
-            var totalBayar = (biayaPerjalanan + biayaAplikasi) - diskon;
-            if (totalBayar < 0) totalBayar = 0;
+            // Hitung kalkulasi akhir matematika belanja
+            var totalAkhir = (bTrip + bApp) - diskon;
+            if(totalAkhir < 0) totalAkhir = 0;
 
-            // Tempelkan data ke Kuitansi
+            // Suntik kembali ke template visual komponen
             document.getElementById('lbl_tgl_atas').innerText = tglAtas;
             document.getElementById('lbl_nama_user').innerText = namaUser;
             
-            document.getElementById('lbl_total_atas').innerText = formatRupiah(totalBayar);
-            document.getElementById('lbl_biaya_perjalanan').innerText = formatRupiah(biayaPerjalanan);
-            document.getElementById('lbl_biaya_aplikasi').innerText = formatRupiah(biayaAplikasi);
-            document.getElementById('lbl_diskon').innerText = "- " + formatRupiah(diskon);
-            document.getElementById('lbl_total_bawah').innerText = formatRupiah(totalBayar);
-            document.getElementById('lbl_metode_bayar').innerText = formatRupiah(totalBayar);
+            document.getElementById('lbl_total_box').innerText = formatRupiah(totalAkhir);
+            document.getElementById('lbl_biaya_trip').innerText = formatRupiah(bTrip);
+            document.getElementById('lbl_biaya_app').innerText = formatRupiah(bApp);
+            document.getElementById('lbl_diskon').innerText = "-Rp" + diskon.toLocaleString('id-ID');
+            document.getElementById('lbl_total_bawah').innerText = formatRupiah(totalAkhir);
+            document.getElementById('lbl_metode_bayar').innerText = formatRupiah(totalAkhir);
 
-            document.getElementById('lbl_driver_nama').innerText = driverNama.toUpperCase();
-            document.getElementById('lbl_driver_plat').innerText = driverPlat.toUpperCase();
-            document.getElementById('lbl_driver_mobil').innerText = driverMobil;
+            document.getElementById('lbl_driver_nama').innerText = dNama.toUpperCase();
+            document.getElementById('lbl_driver_plat').innerText = dPlat.toUpperCase();
+            document.getElementById('lbl_driver_mobil').innerText = dMobil;
 
             document.getElementById('lbl_jarak').innerText = jarak;
             document.getElementById('lbl_waktu').innerText = waktu;
 
-            document.getElementById('lbl_jemput_waktu').innerText = jemputWaktu;
-            document.getElementById('lbl_jemput_tempat').innerText = jemputTempat;
-            document.getElementById('lbl_jemput_alamat').innerText = jemputAlamat;
+            document.getElementById('lbl_jemput_waktu').innerText = jWaktu;
+            document.getElementById('lbl_jemput_tempat').innerText = jTempat;
+            document.getElementById('inp_lbl_jemput_alamat').innerText = jAlamat;
 
-            document.getElementById('lbl_sampai_waktu').innerText = sampaiWaktu;
-            document.getElementById('lbl_sampai_tempat').innerText = sampaiTempat;
-            document.getElementById('lbl_sampai_alamat').innerText = sampaiAlamat;
+            document.getElementById('lbl_sampai_waktu').innerText = sWaktu;
+            document.getElementById('lbl_sampai_tempat').innerText = sTempat;
+            document.getElementById('inp_lbl_sampai_alamat').innerText = sAlamat;
         }
 
-        // Jalankan saat halaman pertama kali dibuka
         window.onload = function() {
-            generateOrderID();
-            updateReceipt();
+            acakIDPesanan();
+            prosesPerubahan();
         };
     </script>
 </body>
