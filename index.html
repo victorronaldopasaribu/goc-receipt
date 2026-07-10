@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Tanda Terima GoCar Lengkap</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            color: #000000;
+        }
+        /* Style untuk Form Kontrol di Bagian Atas */
+        .form-container {
+            max-width: 420px;
+            margin: 0 auto 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #ccc;
+        }
+        .form-container h2 {
+            margin-top: 0;
+            font-size: 16px;
+            border-bottom: 2px solid #00aa13;
+            padding-bottom: 8px;
+            color: #00aa13;
+        }
+        .form-group {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #555;
+        }
+        .form-group input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .btn-random {
+            padding: 6px 10px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        .divider {
+            border-top: 1px dashed #ccc;
+            margin: 15px 0;
+        }
+
+        /* ----------------------------------------------------------------- */
+        /* TEMPLATE BUKTI GOCAR - REPLIKA SAMA PERSIS SESUAI GAMBAR ASLI      */
+        /* ----------------------------------------------------------------- */
+        .receipt-wrapper {
+            max-width: 412px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+        
+        /* Header Hijau */
+        .header {
+            background-color: #00aa13;
+            color: white;
+            padding: 22px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        /* Logo GoCar Kiri Atas */
+        .logo-area {
+            display: flex;
+            align-items: center;
+        }
+        .logo-svg {
+            height: 28px;
+            fill: white;
+        }
+        
+        /* Teks Kanan Atas */
+        .meta-info {
+            text-align: right;
+            font-size: 11px;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+        .meta-info .id-pesanan {
+            opacity: 0.85;
+        }
+
+        /* Konten Utama */
+        .content {
+            padding: 24px 18px;
+        }
+        
+        .greeting {
+            font-size: 13.5px;
+            color: #2b2b2b;
+            margin-bottom: 12px;
+        }
+        
+        .thanks {
+            font-size: 21px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 24px;
+            letter-spacing: -0.3px;
+        }
+        
+        /* Kotak Total Dibayar */
+        .total-box {
+            background-color: #f7f9f8;
+            border: 1px solid #e2e6e4;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .total-label {
+            font-weight: 700;
+            font-size: 14px;
+            color: #000000;
+        }
+        .total-amount {
+            color: #00aa13;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        /* Judul Sub-Bagian */
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 14px;
+        }
+        
+        /* Rincian Tabel Pembayaran */
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            color: #2b2b2b;
+            margin-bottom: 32px;
+        }
+        .payment-table td {
+            padding: 4px 0;
+            vertical-align: top;
+        }
+        .payment-table td:last-child {
+            text-align: right;
+        }
+        .border-top-line {
+            border-top: 1px solid #000000;
+            font-weight: 700;
+            color: #000000;
+            padding-top: 8px !important;
+        }
+        .sub-text {
+            font-size: 12px;
+            color: #6a6a6a;
+        }
+
+        /* Detail Perjalanan Luar Box */
+        .trip-details-border {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            border-radius: 2px;
+            margin-bottom: 24px;
+        }
+        
+        /* Tata Letak Kolom Kiri dan Kanan */
+        .trip-layout {
+            display: flex;
+            gap: 16px;
+        }
+        .left-column {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .right-column {
+            width: 55%;
+        }
+
+        /* Informasi Driver */
+        .driver-name {
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            color: #000000;
+            line-height: 1.3;
+        }
+        .driver-vehicle {
+            color: #4a4a4a;
+            font-size: 11.5px;
+            margin-top: 2px;
+        }
+        
+        /* Statistik Jarak & Waktu */
+        .trip-stats {
+            font-size: 12px;
+            color: #000000;
+            margin-top: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .stat-icon {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        /* Timeline Titik Jemput & Tujuan */
+        .timeline-item {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 20px;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .pickup::before {
+            background-color: #00aa13;
+        }
+        .dropoff::before {
+            background-color: #ff5c00;
+        }
+        
+        .timeline-time {
+            font-size: 11.5px;
+            color: #4a4a4a;
+            line-height: 1.3;
+        }
+        .timeline-title {
+            font-weight: 700;
+            font-size: 13px;
+            color: #000000;
+            margin: 3px 0;
+        }
+        .timeline-address {
+            font-size: 11px;
+            color: #6a6a6a;
+            line-height: 1.4;
+        }
+
+        /* Tautan Menu Bantuan */
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 11.5px;
+            color: #0056b3;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        .footer-links span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+        .link-icon {
+            width: 13px;
+            height: 13px;
+        }
+
+        /* Catatan Kaki */
+        .insurance-note {
+            font-size: 10.5px;
+            color: #4a4a4a;
+            text-align: center;
+            line-height: 1.45;
+            margin-bottom: 36px;
+            padding: 0 4px;
+        }
+
+        /* Bagian Sosial Media */
+        .social-contacts {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .social-title {
+            font-size: 11px;
+            color: #6a6a6a;
+            margin-bottom: 12px;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .social-icons svg {
+            width: 24px;
+            height: 24px;
+            fill: #000000;
+        }
+
+        /* Gojek Identitas Kantor */
+        .gojek-footer {
+            text-align: center;
+            font-size: 10.5px;
+            color: #6a6a6a;
+            line-height: 1.4;
+        }
+        .gojek-logo-bottom {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 6px;
+        }
+        .gojek-logo-bottom svg {
+            height: 18px;
+            fill: #000000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Panel Kustomisasi Bukti GoCar</h2>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>Hari & Tanggal Atas</label>
+                <input type="text" id="i_tgl_header" value="Sabtu, 2 Mei 2026">
+            </div>
+            <div class="form-group">
+                <label>ID Pesanan</label>
+                <input type="text" id="i_id_pesanan" value="RB-4750671-92917377">
+                <button type="button" class="btn-random" onclick="randomizeID()">Acak ID</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Nama Pengguna</label>
+            <input type="text" id="i_nama" value="Victor Ronaldo Pasaribu">
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Biaya Perjalanan</label>
+                <input type="number" id="i_biaya" value="25000">
+            </div>
+            <div class="form-group">
+                <label>Jasa Aplikasi</label>
+                <input type="number" id="i_jasa" value="6500">
+            </div>
+            <div class="form-group">
+                <label>Diskon</label>
+                <input type="number" id="i_diskon" value="10000">
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Nama Driver</label>
+                <input type="text" id="i_driver" value="AZIZ RIFAUL KHUSNA">
+            </div>
+            <div class="form-group">
+                <label>Plat Nomor</label>
+                <input type="text" id="i_plat" value="B1873HOZ">
+            </div>
+            <div class="form-group">
+                <label>Mobil</label>
+                <input type="text" id="i_mobil" value="Daihatsu Sigra">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Jarak (km)</label>
+                <input type="text" id="i_jarak" value="5.9">
+            </div>
+            <div class="form-group">
+                <label>Durasi (menit)</label>
+                <input type="number" id="i_waktu" value="12">
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-group">
+            <label>Waktu Penjemputan</label>
+            <input type="text" id="i_tgl_jemput" value="Dijemput 2 Mei 2026 jam 11:52">
+        </div>
+        <div class="form-group">
+            <label>Tempat Penjemputan</label>
+            <input type="text" id="i_tempat_jemput" value="Stasiun Jurang Mangu">
+        </div>
+        <div class="form-group">
+            <label>Alamat Penjemputan</label>
+            <input type="text" id="i_alamat_jemput" value="Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413">
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-group">
+            <label>Waktu Sampai</label>
+            <input type="text" id="i_tgl_sampai" value="Sampai 2 Mei 2026 jam 12:04">
+        </div>
+        <div class="form-group">
+            <label>Tempat Tujuan</label>
+            <input type="text" id="i_tempat_sampai" value="Duatigastudio Graha">
+        </div>
+        <div class="form-group">
+            <label>Alamat Tujuan</label>
+            <input type="text" id="i_alamat_sampai" value="Jl. Boni No.6, RT.001/RW.004, Parigi, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15228, Indonesia">
+        </div>
+    </div>
+
+
+    <div class="receipt-wrapper">
+        
+        <div class="header">
+            <div class="logo-area">
+                <svg class="logo-svg" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M42,28 C42,24 38,20 25,20 C12,20 8,24 8,28 C5,29 3,31 3,34 C3,38 6,39 9,39 L9,42 C9,44 11,46 13,46 L16,46 C18,46 20,44 20,42 L20,39 L30,39 L30,42 C30,44 32,46 34,46 L37,46 C39,46 41,44 41,42 L41,39 C44,39 47,38 47,34 C47,31 45,29 42,28 Z M15,25 C17,25 18,26 18,28 C18,30 17,31 15,31 C13,31 12,30 12,28 C12,26 13,25 15,25 Z M35,25 C37,25 38,26 38,28 C38,30 37,31 35,31 C33,31 32,30 32,28 C32,26 33,25 35,25 Z" fill="white"/>
+                    <text x="54" y="40" font-family="-apple-system, sans-serif" font-weight="800" font-size="28" fill="white" letter-spacing="-1.5px">gocar</text>
+                </svg>
+            </div>
+            <div class="meta-info">
+                <div id="v_tgl_header">Sabtu, 2 Mei 2026</div>
+                <div class="id-pesanan">ID pesanan: <span id="v_id_pesanan">RB-4750671-92917377</span></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="greeting">Hai <span id="v_nama">Victor Ronaldo Pasaribu</span>,</div>
+            <div class="thanks">Makasih udah pesan GoCar</div>
+
+            <div class="total-box">
+                <div class="total-label">Total dibayar</div>
+                <div class="total-amount" id="v_total_box">Rp21.500</div>
+            </div>
+
+            <div class="section-title">Rincian pembayaran</div>
+            <table class="payment-table">
+                <tr>
+                    <td>Biaya perjalanan</td>
+                    <td id="v_biaya">Rp25.000</td>
+                </tr>
+                <tr>
+                    <td>Biaya jasa aplikasi</td>
+                    <td id="v_jasa">Rp6.500</td>
+                </tr>
+                <tr>
+                    <td>Diskon</td>
+                    <td id="v_diskon">-Rp10.000</td>
+                </tr>
+                <tr>
+                    <td class="border-top-line">Total pembayaran</td>
+                    <td class="border-top-line" id="v_total_pembayaran">Rp21.500</td>
+                </tr>
+                <tr>
+                    <td class="sub-text">Dibayar pakai kartu debit/kredit</td>
+                    <td class="sub-text" id="v_metode_bayar">Rp21.500</td>
+                </tr>
+            </table>
+
+            <div class="section-title">Detail perjalanan</div>
+            <div class="trip-details-border">
+                <div class="trip-layout">
+                    
+                    <div class="left-column">
+                        <div class="driver-name" id="v_driver">AZIZ RIFAUL KHUSNA</div>
+                        <div class="driver-vehicle">
+                            <span id="v_plat">B1873HOZ</span> • <span id="v_mobil">Daihatsu Sigra</span>
+                        </div>
+                        
+                        <div class="trip-stats">
+                            <div class="stat-item">
+                                <svg class="stat-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="#00aa13"/></svg>
+                                <span>Jarak <span id="v_jarak">5.9</span> km</span>
+                            </div>
+                            <div class="stat-item">
+                                <svg class="stat-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z" fill="#00aa13"/></svg>
+                                <span>Waktu perjalanan <span id="v_waktu">12</span> menit</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="right-column">
+                        <div class="timeline-item pickup">
+                            <div class="timeline-time" id="v_tgl_jemput">Dijemput 2 Mei 2026 jam 11:52 dari</div>
+                            <div class="timeline-title" id="v_tempat_jemput">Stasiun Jurang Mangu</div>
+                            <div class="timeline-address" id="v_alamat_jemput">Jl. Cendrawasih, Sawah Lama, Ciputat, Kota Tangerang Selatan, Banten 15413</div>
+                        </div>
+                        <div class="timeline-item dropoff">
+                            <div class="timeline-time" id="v_tgl_sampai">Sampai 2 Mei 2026 jam 12:04 di</div>
+                            <div class="timeline-title" id="v_tempat_sampai">Duatigastudio Graha</div>
+                            <div class="timeline-address" id="v_alamat_sampai">Jl. Boni No.6, RT.001/RW.004, Parigi, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15228, Indonesia</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <span>
+                    <svg class="link-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm0-4h-2V7h2v7z" fill="#0056b3"/></svg>
+                    Bantuan
+                </span>
+                <span>
+                    <svg class="link-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V7h2v3z" fill="#0056b3"/></svg>
+                    Laporkan masalah
+                </span>
+                <span>
+                    <svg class="link-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" fill="#0056b3"/></svg>
+                    Tentang GoCar
+                </span>
+            </div>
+
+            <div class="insurance-note">
+                Perjalanan ini dijamin asuransi. Total yang tercantum adalah harga yang dibayarkan ketika pesanan selesai. Biaya tambahan seperti tip yang diberikan setelah pesanan selesai tidak dicantumkan di bukti pembayaran ini.
+            </div>
+
+            <div class="social-contacts">
+                <div class="social-title">Kontak Gojek lewat</div>
+                <div class="social-icons">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M9 8H7v3h2v9h3v-9h2.725l.426-3H12V5.642c0-.854.174-1.307 1.3-1.307H15V1h-2.908C9.577 1 9 2.76 9 5.045V8z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.88.502 5.764a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.88 24 12 24 12s0-3.88-.502-5.764zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0zM7.12 20.45H3.56V9h3.56v11.45zM5.34 7.43c-1.14 0-2.06-.92-2.06-2.06 0-1.14.92-2.06 2.06-2.06 1.14 0 2.06.92 2.06 2.06 0 1.14-.92 2.06-2.06 2.06zm15.11 13.02h-3.56v-5.6c0-1.34-.03-3.05-1.86-3.05-1.86 0-2.14 1.45-2.14 2.95v5.7H9.33V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29z"/></svg>
+                </div>
+            </div>
+
+            <div class="gojek-footer">
+                <div class="gojek-logo-bottom">
+                    <svg height="16" viewBox="0 0 80 25" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="10" cy="12" r="6" fill="none" stroke="#00aa13" stroke-width="4"/>
+                        <text x="24" y="17" font-family="-apple-system, sans-serif" font-weight="700" font-size="16" fill="#000000">gojek</text>
+                    </svg>
+                </div>
+                Pasaraya Blok M GD B, 7th Floor, Kebayoran Baru, Kebayoran Baru, DKI Jakarta Indonesia 12160
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function formatUang(nilai) {
+            return new Intl.NumberFormat('id-ID').format(nilai);
+        }
+
+        function kalkulasiHarga() {
+            const biaya = parseInt(document.getElementById('i_biaya').value) || 0;
+            const jasa = parseInt(document.getElementById('i_jasa').value) || 0;
+            const diskon = parseInt(document.getElementById('i_diskon').value) || 0;
+            
+            const total = (biaya + jasa) - diskon;
+            
+            document.getElementById('v_biaya').innerText = 'Rp' + formatUang(biaya);
+            document.getElementById('v_jasa').innerText = 'Rp' + formatUang(jasa);
+            document.getElementById('v_diskon').innerText = '-Rp' + formatUang(diskon);
+            
+            const txtTotal = 'Rp' + formatUang(total);
+            document.getElementById('v_total_box').innerText = txtTotal;
+            document.getElementById('v_total_pembayaran').innerText = txtTotal;
+            document.getElementById('v_metode_bayar').innerText = txtTotal;
+        }
+
+        function randomizeID() {
+            const r1 = Math.floor(1000000 + Math.random() * 9000000);
+            const r2 = Math.floor(10000000 + Math.random() * 90000000);
+            const generated = 'RB-' + r1 + '-' + r2;
+            document.getElementById('i_id_pesanan').value = generated;
+            document.getElementById('v_id_pesanan').innerText = generated;
+        }
+
+        function updateSemuaTeks() {
+            document.getElementById('v_tgl_header').innerText = document.getElementById('i_tgl_header').value;
+            document.getElementById('v_id_pesanan').innerText = document.getElementById('i_id_pesanan').value;
+            document.getElementById('v_nama').innerText = document.getElementById('i_nama').value;
+            document.getElementById('v_driver').innerText = document.getElementById('i_driver').value;
+            document.getElementById('v_plat').innerText = document.getElementById('i_plat').value;
+            document.getElementById('v_mobil').innerText = document.getElementById('i_mobil').value;
+            document.getElementById('v_jarak').innerText = document.getElementById('i_jarak').value;
+            document.getElementById('v_waktu').innerText = document.getElementById('i_waktu').value;
+            
+            document.getElementById('v_tgl_jemput').innerText = document.getElementById('i_tgl_jemput').value + " dari";
+            document.getElementById('v_tempat_jemput').innerText = document.getElementById('i_tempat_jemput').value;
+            document.getElementById('v_alamat_jemput').innerText = document.getElementById('i_alamat_jemput').value;
+            
+            document.getElementById('v_tgl_sampai').innerText = document.getElementById('i_tgl_sampai').value + " di";
+            document.getElementById('v_tempat_sampai').innerText = document.getElementById('i_tempat_sampai').value;
+            document.getElementById('v_alamat_sampai').innerText = document.getElementById('i_alamat_sampai').value;
+
+            kalkulasiHarga();
+        }
+
+        window.onload = function() {
+            const allInputs = document.querySelectorAll('.form-container input');
+            allInputs.forEach(elem => {
+                elem.addEventListener('input', updateSemuaTeks);
+            });
+            kalkulasiHarga();
+        };
+    </script>
+</body>
+</html>
